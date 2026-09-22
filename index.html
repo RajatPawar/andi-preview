@@ -8,6 +8,7 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Andi by Ampersand</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
     :root {
       --yellow: #fff6cc;
       --yellow-deep: #ffefaa;
@@ -29,6 +30,7 @@
       --radius: 18px;
       --max: 1240px;
       --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      --chat-sans: "Roboto", "Helvetica Neue", Arial, sans-serif;
       --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
     }
     * { box-sizing: border-box; }
@@ -71,11 +73,11 @@
     }
     .experience[data-story-state="1"] { background: var(--blue-soft); }
     .experience[data-story-state="2"] { background: var(--charcoal); color: var(--yellow); }
-    .experience[data-story-state="3"] { background: #1f2025; color: var(--yellow); }
+    .experience[data-story-state="3"] { background: var(--charcoal); color: var(--yellow); }
     .experience[data-story-state="2"] .chat-window,
     .experience[data-story-state="3"] .chat-window { box-shadow: 0 28px 90px -38px rgba(0,0,0,.5); }
     .experience-grid { display: grid; grid-template-columns: minmax(0,.83fr) minmax(560px,1.17fr); gap: 62px; align-items: start; }
-    .story-rail { position: sticky; top: 112px; min-height: 560px; min-width: 0; }
+    .story-rail { position: sticky; top: 96px; height: min(760px, calc(100vh - 120px)); min-height: 0; min-width: 0; }
     .story-card { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; transform: translateY(20px) scale(.985); pointer-events: none; transition: opacity .34s ease, transform .48s cubic-bezier(.2,.7,.2,1); }
     .story-card.active { opacity: 1; transform: none; pointer-events: auto; }
     .story-card.dark { color: var(--yellow); padding: 0; min-height: 480px; }
@@ -88,8 +90,6 @@
     .experience[data-story-state="3"] .story-card.active { color: var(--yellow); }
     .experience[data-story-state="2"] .story-card.active .story-title .serif,
     .experience[data-story-state="3"] .story-card.active .story-title .serif { color: var(--yellow); }
-    .experience[data-story-state="3"] .unlock-grid span { border-color: rgba(231,201,111,.5); color: #fff3bd; background: linear-gradient(180deg, rgba(255,246,204,.08), rgba(255,246,204,.025)); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 12px 28px -24px #000; }
-    .experience[data-story-state="3"] .unlock-grid span::before { background: var(--gold); box-shadow: 0 0 0 4px rgba(231,201,111,.11); }
 
     .sandbox-story-copy { max-width: 430px; margin-top: 20px; font-size: 17px; line-height: 1.55; color: #d7d4ca; letter-spacing: -.2px; }
     .story-visual { margin-top: 34px; min-height: 122px; position: relative; display: flex; align-items: center; }
@@ -128,7 +128,7 @@
     .text-link { display: inline-flex; align-items: center; gap: 8px; color: var(--blue); font-size: 12px; font-weight: 650; }
 
     .chat-stage { position: relative; min-height: 3200px; min-width: 0; }
-    .chat-window { position: sticky; top: 96px; height: min(760px, calc(100vh - 120px)); display: flex; flex-direction: column; background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: 0 24px 80px -42px rgba(30,31,36,.35); }
+    .chat-window { position: sticky; top: 96px; height: min(760px, calc(100vh - 120px)); display: flex; flex-direction: column; background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: 0 24px 80px -42px rgba(30,31,36,.35); font-family: var(--chat-sans); }
     .scroll-track { position: absolute; inset: 0; pointer-events: none; }
     .scroll-phase { height: 800px; }
     .scroll-phase:last-child { height: 760px; }
@@ -140,21 +140,70 @@
     .chat-head { min-height: 68px; padding: 15px 19px; border-bottom: 1px solid #e7e6e0; display: flex; align-items: center; gap: 11px; background: rgba(255,255,255,.98); }
     .andi-mark { width: 34px; height: 34px; border-radius: 9px; background: var(--blue); color: var(--yellow); display: grid; place-items: center; flex: 0 0 auto; }
     .andi-mark .icon { width: 22px; height: 22px; }
-    .chat-head strong { display: block; font-size: 14px; letter-spacing: -.2px; }
+    .chat-head strong { display: block; font-size: 15px; font-weight: 600; letter-spacing: -.15px; }
     .chat-head span { display: block; color: var(--muted); font-size: 10px; margin-top: 1px; }
     .live-pill { margin-left: auto; border: 1px solid #e1e0da; border-radius: 100px; font-family: var(--mono); font-size: 8px; letter-spacing: .8px; text-transform: uppercase; padding: 5px 8px; color: var(--muted); }
     .chat-body { flex: 1; min-height: 0; overflow: hidden; padding: 28px 25px 30px; scroll-behavior: smooth; }
     .chat-chapter { padding: 8px 0 52px; min-height: 480px; scroll-margin-top: 155px; }
     .chat-chapter + .chat-chapter { border-top: 1px solid #eceae3; padding-top: 44px; }
     .mobile-story { display: none; }
-    .message-row { display: flex; gap: 10px; align-items: flex-start; margin-top: 19px; }
+    .message-row { display: flex; gap: 11px; align-items: flex-start; margin-top: 22px; }
     .message-row:first-child { margin-top: 0; }
     .message-row.user { justify-content: flex-end; }
     .message-row.user .bubble { max-width: 78%; background: #f3f3f5; border-radius: 12px 12px 3px 12px; }
     .message-row.andi .bubble { max-width: 86%; background: var(--purple-soft); border: 1px solid #eadcff; color: #442073; border-radius: 12px 12px 12px 3px; }
     .message-row .mini-andi { width: 22px; height: 22px; border-radius: 6px; background: var(--purple); color: white; display: grid; place-items: center; margin-top: 2px; }
     .message-row .mini-andi .icon { width: 14px; height: 14px; }
-    .bubble { padding: 12px 14px; font-size: 13px; line-height: 1.58; }
+    .bubble { padding: 13px 15px; font-size: 14.5px; line-height: 1.5; letter-spacing: -.08px; }
+
+    /* Opening chat: editorial, premium contrast */
+    .chat-phase[data-chat-phase="0"] { font-family: var(--chat-sans); }
+    .chat-phase[data-chat-phase="0"] .message-row { margin-top: 30px; gap: 14px; }
+    .chat-phase[data-chat-phase="0"] .message-row:first-of-type { margin-top: 2px; }
+    .chat-phase[data-chat-phase="0"] .bubble {
+      padding: 17px 19px;
+      font-size: 16px;
+      line-height: 1.56;
+      letter-spacing: -.18px;
+      font-weight: 400;
+    }
+    .chat-phase[data-chat-phase="0"] .message-row.user .bubble {
+      max-width: 82%;
+      background: #202126;
+      color: #fffdf6;
+      border: 1px solid #202126;
+      border-radius: 18px 18px 5px 18px;
+      box-shadow: 0 14px 34px -27px rgba(32,33,38,.78);
+    }
+    .chat-phase[data-chat-phase="0"] .message-row.andi .bubble {
+      max-width: 88%;
+      background: #fff;
+      color: #352445;
+      border: 1px solid #ddd5e8;
+      border-radius: 18px 18px 18px 5px;
+      box-shadow: 0 18px 42px -34px rgba(65,34,91,.62);
+    }
+    .chat-phase[data-chat-phase="0"] .message-row .mini-andi {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      margin-top: 4px;
+      box-shadow: 0 9px 20px -14px rgba(90,42,145,.7);
+    }
+    .chat-phase[data-chat-phase="0"] .message-row .mini-andi .icon { width: 16px; height: 16px; }
+    .chat-phase[data-chat-phase="0"] .message-author {
+      margin: 0 8px 7px 0;
+      font-family: var(--chat-sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .01em;
+      color: #6f7078;
+    }
+    .chat-phase[data-chat-phase="0"] .message-row.user .provider-slot {
+      color: #fff;
+      text-decoration-color: rgba(255,255,255,.7);
+      font-weight: 600;
+    }
     .provider-slot { display: inline-block; min-width: 110px; color: var(--blue); font-weight: 650; border-bottom: 1px solid var(--blue); transition: opacity .15s ease, transform .15s ease; }
     .provider-slot.swapping { opacity: .15; transform: translateY(2px); }
     .credential-share-card h3 .provider-slot { min-width: 0; border-bottom: 0; }
@@ -168,7 +217,7 @@
 
     .tool-card, .spec-card, .status-card, .access-card, .result-card { margin: 15px 0 0 32px; border: 1px solid #dfded8; border-radius: 12px; overflow: hidden; background: var(--paper); }
     .tool-card { background: #fbf9f2; }
-    .card-head { min-height: 44px; padding: 11px 13px; display: flex; align-items: center; gap: 9px; border-bottom: 1px solid #e4e2db; font-size: 11px; font-weight: 650; }
+    .card-head { min-height: 46px; padding: 12px 14px; display: flex; align-items: center; gap: 9px; border-bottom: 1px solid #e4e2db; font-size: 12px; font-weight: 650; }
     .card-head .icon { width: 15px; height: 15px; }
     .card-head .card-state { margin-left: auto; font-family: var(--mono); font-size: 8px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .7px; }
     .tool-content { padding: 13px; display: grid; gap: 8px; }
@@ -183,7 +232,7 @@
     .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px 18px; }
     .spec-item { padding-top: 10px; border-top: 1px solid #ece9df; }
     .spec-item span { display: block; font-family: var(--mono); font-size: 8px; letter-spacing: .8px; text-transform: uppercase; color: #8f8678; margin-bottom: 5px; }
-    .spec-item strong { font-size: 11px; line-height: 1.5; font-weight: 550; }
+    .spec-item strong { font-size: 12px; line-height: 1.5; font-weight: 550; }
 
     .status-card { background: var(--purple-soft); border-color: #e7d6ff; }
     .status-card .card-head { border-bottom-color: #eadcff; color: #5a2a91; }
@@ -270,12 +319,15 @@
     .footer-inner { display: flex; justify-content: space-between; gap: 30px; color: var(--muted); font-size: 9px; }
 
     /* v5: milestone-driven story rail + shorter visual states */
-    .story-rail { min-height: 600px; }
+    .story-rail { min-height: 0; }
     .story-card { padding-right: 18px; }
     .story-card.dark { min-height: 500px; }
     .story-kicker { margin-bottom: 16px; }
     .story-title { max-width: 590px; }
-    .old-question { width: fit-content; max-width: 420px; margin-bottom: 24px; color: #777881; font-size: 18px; line-height: 1.25; letter-spacing: -.25px; text-decoration-line: line-through; text-decoration-thickness: 1.5px; text-decoration-color: currentColor; text-decoration-skip-ink: auto; }
+    .old-question { width: fit-content; max-width: 420px; margin-bottom: 22px; color: #777881; font-size: 18px; line-height: 1.25; letter-spacing: -.25px; text-decoration-line: line-through; text-decoration-thickness: 1.5px; text-decoration-color: currentColor; text-decoration-skip-ink: auto; }
+    .question-mode { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 1.15px; text-transform: uppercase; }
+    .question-mode.stop { margin-bottom: 8px; color: #858681; }
+    .question-mode.start { margin-bottom: 11px; color: var(--blue); }
     .scope-visual { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; max-width: 390px; }
     .scope-chip { border: 1px solid var(--line); border-radius: 999px; background: var(--paper); padding: 8px 11px; font-family: var(--mono); font-size: 9px; color: var(--muted); }
     .scope-chip.provider-slot { color: var(--blue); border-color: #cbd4ff; background: var(--blue-soft); }
@@ -307,16 +359,23 @@
     .share-secure-button { margin-top: 13px; border-radius: 8px; background: var(--brand-accent); color: #fff; padding: 11px 12px; text-align: center; font-size: 11px; font-weight: 700; transition: background .2s ease; }
     .credential-foot { margin-top: 11px; text-align: center; color: #9ca3af; font-size: 8px; line-height: 1.45; }
     .secure-link { color: var(--blue-dark); text-decoration: underline; text-underline-offset: 3px; font-weight: 650; }
-    .unlock-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-top: 30px; max-width: 470px; }
-    .unlock-grid span { display: flex; align-items: center; gap: 10px; min-height: 43px; border: 1px solid rgba(231,201,111,.45); border-radius: 999px; background: #292a30; padding: 10px 14px; font-family: var(--mono); font-size: 9px; font-weight: 650; letter-spacing: .15px; color: #fff3bd; }
-    .unlock-grid span::before { content: ''; width: 6px; height: 6px; flex: 0 0 auto; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px rgba(231,201,111,.11); }
+    .amp-stack { margin-top: 30px; display: grid; gap: 10px; max-width: 500px; }
+    .amp-layer { position: relative; display: grid; grid-template-columns: 104px 1fr; align-items: center; min-height: 78px; padding: 14px 16px; border: 1px solid rgba(231,201,111,.26); border-radius: 14px; background: linear-gradient(135deg, rgba(231,201,111,.10), rgba(231,201,111,.025)); overflow: hidden; }
+    .amp-layer::after { content: ''; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--gold); opacity: .9; }
+    .amp-layer-label { font-family: var(--mono); font-size: 9px; font-weight: 750; letter-spacing: 1.3px; text-transform: uppercase; color: var(--gold); }
+    .amp-layer-items { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+    .amp-layer-items span { position: relative; font-size: 14px; line-height: 1.2; font-weight: 620; letter-spacing: -.2px; color: #fff4c8; white-space: nowrap; }
+    .amp-layer-items span + span::before { content: '·'; position: absolute; left: -10px; color: rgba(231,201,111,.5); }
+    .amp-layer:nth-child(2) { transform: translateX(10px); }
+    .amp-layer:nth-child(3) { transform: translateX(20px); }
+    .experience[data-story-state="3"] .amp-layer { box-shadow: 0 14px 38px -30px rgba(231,201,111,.5); }
     .chat-body { padding-top: 24px; }
     .phase-anchor { display: block; height: 1px; width: 100%; }
     .milestone-card { margin-top: 18px; }
     .compact-status { margin-top: 18px; }
     .phase-work { display: grid; gap: 10px; margin: 16px 0 4px 34px; max-width: 78%; }
     .phase-work .thinking { margin: 0; }
-    .andi-activity { margin: 16px 0 4px 34px; color: #8b4dff; font-size: 11px; font-weight: 650; line-height: 1.4; display: inline-flex; align-items: center; gap: 7px; }
+    .andi-activity { margin: 18px 0 5px 34px; color: #8b4dff; font-size: 12px; font-weight: 650; line-height: 1.4; display: inline-flex; align-items: center; gap: 7px; }
     .customer-sees-label { margin-top: 26px; font-family: var(--mono); font-size: 9px; font-weight: 650; letter-spacing: 1px; text-transform: uppercase; color: #c7c4ba; }
     .sandbox-checks { margin: 18px 0 0 34px; }
     .tool-call { display: flex; align-items: center; gap: 9px; width: fit-content; max-width: 100%; border: 1px solid #e1d9ee; border-radius: 9px; background: #fbf8ff; padding: 9px 11px; color: #57338b; font-family: var(--mono); font-size: 9px; line-height: 1.4; }
@@ -377,13 +436,24 @@
       .customer-quote-visual blockquote { font-size: 16px; }
       .credential-share-card { padding: 16px; }
       .credential-share-card h3 { font-size: 17px; }
+      .amp-stack { margin-top: 22px; gap: 8px; }
+      .amp-layer { grid-template-columns: 82px 1fr; min-height: 68px; padding: 12px 13px; }
+      .amp-layer:nth-child(2), .amp-layer:nth-child(3) { transform: none; }
+      .amp-layer-items { gap: 7px 14px; }
+      .amp-layer-items span { font-size: 12px; }
+
       .story-actions { margin-top: 23px; }
       .chat-window { border-radius: 13px; }
       .chat-head { padding: 12px 14px; }
       .chat-body { padding: 17px 14px 22px; }
       .message-row.user .bubble, .message-row.andi .bubble { max-width: 91%; }
       .user-stack { max-width: 91%; }
-      .bubble { font-size: 11px; padding: 10px 11px; }
+      .bubble { font-size: 13.5px; line-height: 1.5; padding: 11px 12px; }
+      .chat-phase[data-chat-phase="0"] .message-row { margin-top: 22px; gap: 10px; }
+      .chat-phase[data-chat-phase="0"] .bubble { font-size: 14.5px; line-height: 1.52; padding: 14px 15px; }
+      .chat-phase[data-chat-phase="0"] .message-row.user .bubble,
+      .chat-phase[data-chat-phase="0"] .message-row.andi .bubble { max-width: 94%; }
+      .chat-phase[data-chat-phase="0"] .message-row .mini-andi { width: 25px; height: 25px; }
       .tool-card, .spec-card, .status-card, .access-card, .result-card { margin-left: 0; }
       .thinking { margin-left: 0; }
       .spec-grid { grid-template-columns: 1fr; gap: 10px; }
@@ -453,7 +523,7 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="page-label" href="#main">Introducing Andi By Ampersand</a>
+      <a class="page-label" href="#main">Andi by Ampersand</a>
       <nav class="desktop-nav" aria-label="Main navigation">
         <a href="#experience">How it works</a>
         <a href="#faq">FAQ</a>
@@ -471,7 +541,9 @@
       <div class="wrap experience-grid">
         <aside class="story-rail" aria-live="polite">
           <article class="story-card active" data-story-panel="0">
-            <div class="old-question" aria-label="Stop asking: Is this integration supported?"><span>Is this integration supported?</span></div>
+            <div class="question-mode stop">Stop asking</div>
+            <div class="old-question"><span>Is this integration supported?</span></div>
+            <div class="question-mode start">Start asking</div>
             <h1 class="story-title">Which integration do we need to <span class="serif">build next?</span></h1>
             <div class="story-actions"><a class="button button-primary" data-contact href="https://calendly.com/joel-withampersand/new-meeting-1" target="_blank" rel="noopener noreferrer">Talk to us about Andi <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
             <div class="story-progress" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span></div>
@@ -505,8 +577,19 @@
 
           <article class="story-card dark" data-story-panel="3">
             <h2 class="story-title">Andi builds it.<br><span class="serif">Ampersand runs it.</span></h2>
-            <div class="unlock-grid" aria-label="Ampersand capabilities unlocked">
-              <span>Managed auth</span><span>Field mappings</span><span>Read</span><span>Write</span><span>Scheduled reads</span><span>Backfills</span><span>Proxy</span><span>Retries</span><span>Logs</span><span>Alerting</span>
+            <div class="amp-stack" aria-label="Ampersand operating capabilities">
+              <div class="amp-layer">
+                <div class="amp-layer-label">Connect</div>
+                <div class="amp-layer-items"><span>Managed auth</span><span>Proxy</span></div>
+              </div>
+              <div class="amp-layer">
+                <div class="amp-layer-label">Sync</div>
+                <div class="amp-layer-items"><span>Read</span><span>Write</span><span>Field mappings</span><span>Scheduled reads</span><span>Backfills</span></div>
+              </div>
+              <div class="amp-layer">
+                <div class="amp-layer-label">Operate</div>
+                <div class="amp-layer-items"><span>Retries</span><span>Logs</span><span>Alerting</span></div>
+              </div>
             </div>
             <div class="story-progress" aria-hidden="true"><span></span><span></span><span></span><span class="active"></span></div>
           </article>
@@ -521,7 +604,7 @@
 
           <div class="chat-body" id="andi-chat-body">
             <div class="chat-phase revealed" data-chat-phase="0">
-              <div class="mobile-story">Which integration do we need to build next?</div>
+              <div class="mobile-story">Stop asking “Is this integration supported?” Start asking “Which integration do we need to build next?”</div>
               <div class="message-row user"><div class="user-stack"><span class="message-author">Me</span><div class="bubble">We need to build an integration with <span class="provider-slot">ServiceTitan</span> for an incoming customer.</div></div></div>
               <div class="message-row andi"><div class="mini-andi" aria-hidden="true"><svg class="icon"><use href="#i-spark"/></svg></div><div class="bubble">Got it. Do you need to read, write, or both? Which objects does the product need?</div></div>
               <div class="message-row user"><div class="user-stack"><span class="message-author">Me</span><div class="bubble">Read only. We&rsquo;ll need <span class="objects-slot">jobs, technicians, and customers</span>.</div></div></div>
