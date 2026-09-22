@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFF6CC">
+  <meta name="description" content="Meet Andi by Ampersand. Scope the integration your customer needs, then let Andi build and test the connector in the background.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Andi by Ampersand</title>
+  <style>
+    :root {
+      --yellow: #fff6cc;
+      --yellow-deep: #ffefaa;
+      --gold: #e7c96f;
+      --gold-deep: #c9a647;
+      --blue: #355df4;
+      --blue-dark: #2447d0;
+      --blue-soft: #eef1ff;
+      --charcoal: #25262b;
+      --ink: #202126;
+      --muted: #696a73;
+      --line: #dcd9ca;
+      --paper: #fffdf6;
+      --white: #ffffff;
+      --green: #2c7a50;
+      --green-soft: #edf9f1;
+      --purple: #8a50ff;
+      --purple-soft: #f6f0ff;
+      --radius: 18px;
+      --max: 1240px;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body { margin: 0; background: var(--yellow); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+    p, h1, h2, h3 { margin: 0; }
+    svg { display: block; }
+    .wrap { width: min(var(--max), calc(100% - 80px)); margin-inline: auto; }
+    .icon { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .skip-link { position: fixed; top: -100px; left: 14px; z-index: 1000; background: var(--charcoal); color: white; padding: 10px 14px; border-radius: 6px; }
+    .skip-link:focus { top: 14px; }
+
+    .site-header { position: sticky; top: 0; z-index: 40; background: rgba(255,246,204,.94); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+    .header-inner { min-height: 72px; display: flex; align-items: center; gap: 28px; }
+    .page-label { font-size: 16px; font-weight: 650; letter-spacing: -.35px; white-space: nowrap; }
+    .desktop-nav { margin-left: auto; display: flex; align-items: center; gap: 26px; font-size: 12px; color: var(--muted); }
+    .desktop-nav a:hover { color: var(--blue); }
+    .button { min-height: 42px; border-radius: 7px; padding: 10px 16px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid transparent; font-size: 12px; font-weight: 650; transition: transform .18s ease, background .18s ease; }
+    .button:hover { transform: translateY(-1px); }
+    .button-primary { background: var(--blue); color: white; }
+    .button-primary:hover { background: var(--blue-dark); }
+    .button-secondary { border-color: var(--blue); color: var(--blue); background: transparent; }
+    .menu-button { display: none; margin-left: auto; background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 9px; }
+    .mobile-nav { padding: 10px 0 20px; border-top: 1px solid var(--line); display: grid; gap: 4px; }
+    .mobile-nav a { padding: 9px 0; font-size: 14px; }
+
+
+    .experience {
+      padding: 58px 0 80px;
+      background: var(--yellow);
+      color: var(--ink);
+      transition: background .55s cubic-bezier(.2,.7,.2,1), color .45s ease;
+      position: relative;
+      isolation: isolate;
+    }
+    .experience[data-story-state="1"] { background: var(--blue-soft); }
+    .experience[data-story-state="2"] { background: var(--charcoal); color: var(--yellow); }
+    .experience[data-story-state="3"] { background: #1f2025; color: var(--yellow); }
+    .experience[data-story-state="2"] .chat-window,
+    .experience[data-story-state="3"] .chat-window { box-shadow: 0 28px 90px -38px rgba(0,0,0,.5); }
+    .experience-grid { display: grid; grid-template-columns: minmax(0,.83fr) minmax(560px,1.17fr); gap: 62px; align-items: start; }
+    .story-rail { position: sticky; top: 112px; min-height: 560px; min-width: 0; }
+    .story-card { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; transform: translateY(20px) scale(.985); pointer-events: none; transition: opacity .34s ease, transform .48s cubic-bezier(.2,.7,.2,1); }
+    .story-card.active { opacity: 1; transform: none; pointer-events: auto; }
+    .story-card.dark { color: var(--yellow); padding: 0; min-height: 480px; }
+    .story-kicker { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1.25px; color: var(--blue); margin-bottom: 22px; }
+    .story-card.dark .story-kicker { color: var(--yellow); opacity: .72; }
+    .story-title { font-size: clamp(44px, 4.6vw, 69px); line-height: .99; letter-spacing: -3.6px; font-weight: 520; max-width: 560px; }
+    .story-title .serif { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-weight: 400; color: var(--blue); }
+    .story-card.dark .story-title .serif { color: var(--yellow); }
+    .experience[data-story-state="2"] .story-card.active,
+    .experience[data-story-state="3"] .story-card.active { color: var(--yellow); }
+    .experience[data-story-state="2"] .story-card.active .story-title .serif,
+    .experience[data-story-state="3"] .story-card.active .story-title .serif { color: var(--yellow); }
+    .experience[data-story-state="3"] .unlock-grid span { border-color: rgba(231,201,111,.5); color: #fff3bd; background: linear-gradient(180deg, rgba(255,246,204,.08), rgba(255,246,204,.025)); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 12px 28px -24px #000; }
+    .experience[data-story-state="3"] .unlock-grid span::before { background: var(--gold); box-shadow: 0 0 0 4px rgba(231,201,111,.11); }
+
+    .sandbox-story-copy { max-width: 430px; margin-top: 20px; font-size: 17px; line-height: 1.55; color: #d7d4ca; letter-spacing: -.2px; }
+    .story-visual { margin-top: 34px; min-height: 122px; position: relative; display: flex; align-items: center; }
+    .provider-stack { width: 100%; max-width: 390px; height: 118px; position: relative; }
+    .provider-pill { position: absolute; display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 9px 13px; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.78); box-shadow: 0 12px 30px -24px rgba(30,31,36,.5); font-size: 12px; font-weight: 650; letter-spacing: -.15px; }
+    .provider-pill::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
+    .provider-pill:nth-child(1) { left: 0; top: 8px; transform: rotate(-3deg); }
+    .provider-pill:nth-child(2) { left: 118px; top: 54px; transform: rotate(2deg); }
+    .provider-pill:nth-child(3) { left: 244px; top: 4px; transform: rotate(-1deg); }
+    .flow-visual { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .flow-node { min-width: 88px; padding: 13px 15px; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.74); font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .9px; text-align: center; }
+    .flow-node.accent { border-color: var(--blue); background: var(--blue); color: white; }
+    .flow-arrow { width: 26px; height: 1px; background: var(--blue); position: relative; }
+    .flow-arrow::after { content: ''; position: absolute; right: -1px; top: -3px; width: 7px; height: 7px; border-right: 1px solid var(--blue); border-top: 1px solid var(--blue); transform: rotate(45deg); }
+    .access-visual { display: flex; align-items: center; gap: 14px; }
+    .access-box { border: 1px solid #65666f; border-radius: 12px; padding: 16px 17px; min-width: 142px; background: rgba(255,255,255,.04); }
+    .access-box strong { display: block; font-size: 12px; color: var(--yellow); }
+    .access-box span { display: block; margin-top: 5px; font-family: var(--mono); font-size: 8px; text-transform: uppercase; letter-spacing: .9px; color: #bbbcc5; }
+    .access-lock { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; border: 1px solid #65666f; color: var(--yellow); }
+    .access-lock .icon { width: 17px; height: 17px; }
+    .team-orbit { width: 270px; height: 120px; position: relative; }
+    .team-orbit::before { content: ''; position: absolute; left: 58px; top: 21px; width: 98px; height: 98px; border-radius: 50%; border: 1px solid var(--blue); background: var(--blue-soft); }
+    .team-orbit::after { content: ''; position: absolute; left: 128px; top: 0; width: 98px; height: 98px; border-radius: 50%; border: 1px solid var(--charcoal); background: rgba(37,38,43,.06); }
+    .team-label { position: absolute; z-index: 2; font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .9px; }
+    .team-label.andi { left: 82px; top: 66px; color: var(--blue); }
+    .team-label.amp { left: 145px; top: 39px; color: var(--charcoal); }
+    .story-progress { margin-top: 34px; display: flex; gap: 7px; }
+    .story-progress span { width: 28px; height: 3px; border-radius: 4px; background: #d8d3bf; transition: background .2s ease, width .2s ease; }
+    .story-progress span.active { background: var(--blue); width: 48px; }
+    .story-card.dark .story-progress span { background: #565760; }
+    .story-card.dark .story-progress span.active { background: var(--yellow); }
+    .experience[data-story-state="3"] .story-progress span { background: rgba(255,246,204,.32); }
+    .experience[data-story-state="3"] .story-progress span.active { background: var(--yellow); }
+
+    .story-actions { display: flex; gap: 18px; align-items: center; margin-top: 30px; flex-wrap: wrap; }
+    .text-link { display: inline-flex; align-items: center; gap: 8px; color: var(--blue); font-size: 12px; font-weight: 650; }
+
+    .chat-stage { position: relative; min-height: 3200px; min-width: 0; }
+    .chat-window { position: sticky; top: 96px; height: min(760px, calc(100vh - 120px)); display: flex; flex-direction: column; background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: 0 24px 80px -42px rgba(30,31,36,.35); }
+    .scroll-track { position: absolute; inset: 0; pointer-events: none; }
+    .scroll-phase { height: 800px; }
+    .scroll-phase:last-child { height: 760px; }
+    .chat-phase { display: none; }
+    .chat-phase.revealed { display: block; animation: chatReveal .38s cubic-bezier(.2,.7,.2,1); transition: opacity .32s ease, filter .32s ease; }
+    .chat-phase.revealed.is-past { opacity: .28; filter: saturate(.55); }
+    .chat-phase.revealed.is-current { opacity: 1; filter: none; }
+    @keyframes chatReveal { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .chat-head { min-height: 68px; padding: 15px 19px; border-bottom: 1px solid #e7e6e0; display: flex; align-items: center; gap: 11px; background: rgba(255,255,255,.98); }
+    .andi-mark { width: 34px; height: 34px; border-radius: 9px; background: var(--blue); color: var(--yellow); display: grid; place-items: center; flex: 0 0 auto; }
+    .andi-mark .icon { width: 22px; height: 22px; }
+    .chat-head strong { display: block; font-size: 14px; letter-spacing: -.2px; }
+    .chat-head span { display: block; color: var(--muted); font-size: 10px; margin-top: 1px; }
+    .live-pill { margin-left: auto; border: 1px solid #e1e0da; border-radius: 100px; font-family: var(--mono); font-size: 8px; letter-spacing: .8px; text-transform: uppercase; padding: 5px 8px; color: var(--muted); }
+    .chat-body { flex: 1; min-height: 0; overflow: hidden; padding: 28px 25px 30px; scroll-behavior: smooth; }
+    .chat-chapter { padding: 8px 0 52px; min-height: 480px; scroll-margin-top: 155px; }
+    .chat-chapter + .chat-chapter { border-top: 1px solid #eceae3; padding-top: 44px; }
+    .mobile-story { display: none; }
+    .message-row { display: flex; gap: 10px; align-items: flex-start; margin-top: 19px; }
+    .message-row:first-child { margin-top: 0; }
+    .message-row.user { justify-content: flex-end; }
+    .message-row.user .bubble { max-width: 78%; background: #f3f3f5; border-radius: 12px 12px 3px 12px; }
+    .message-row.andi .bubble { max-width: 86%; background: var(--purple-soft); border: 1px solid #eadcff; color: #442073; border-radius: 12px 12px 12px 3px; }
+    .message-row .mini-andi { width: 22px; height: 22px; border-radius: 6px; background: var(--purple); color: white; display: grid; place-items: center; margin-top: 2px; }
+    .message-row .mini-andi .icon { width: 14px; height: 14px; }
+    .bubble { padding: 12px 14px; font-size: 13px; line-height: 1.58; }
+    .provider-slot { display: inline-block; min-width: 110px; color: var(--blue); font-weight: 650; border-bottom: 1px solid var(--blue); transition: opacity .15s ease, transform .15s ease; }
+    .provider-slot.swapping { opacity: .15; transform: translateY(2px); }
+    .credential-share-card h3 .provider-slot { min-width: 0; border-bottom: 0; }
+    .message-row.user .provider-slot { min-width: 0; border-bottom: 0; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; text-decoration-color: var(--blue); }
+    .thinking { display: inline-flex; align-items: center; gap: 8px; color: var(--purple); font-size: 11px; font-weight: 600; margin: 18px 0 0 32px; }
+    .thinking-dots { display: inline-flex; gap: 3px; }
+    .thinking-dots i { width: 4px; height: 4px; border-radius: 50%; background: var(--purple); animation: think 1.2s ease-in-out infinite; }
+    .thinking-dots i:nth-child(2) { animation-delay: .12s; }
+    .thinking-dots i:nth-child(3) { animation-delay: .24s; }
+    @keyframes think { 0%,80%,100% { opacity:.25; transform: translateY(0); } 40% { opacity:1; transform: translateY(-2px); } }
+
+    .tool-card, .spec-card, .status-card, .access-card, .result-card { margin: 15px 0 0 32px; border: 1px solid #dfded8; border-radius: 12px; overflow: hidden; background: var(--paper); }
+    .tool-card { background: #fbf9f2; }
+    .card-head { min-height: 44px; padding: 11px 13px; display: flex; align-items: center; gap: 9px; border-bottom: 1px solid #e4e2db; font-size: 11px; font-weight: 650; }
+    .card-head .icon { width: 15px; height: 15px; }
+    .card-head .card-state { margin-left: auto; font-family: var(--mono); font-size: 8px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .7px; }
+    .tool-content { padding: 13px; display: grid; gap: 8px; }
+    .tool-line { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 9px; color: var(--muted); }
+    .tool-line .icon { width: 12px; height: 12px; color: var(--green); }
+    .tool-url { color: var(--ink); background: #eeece5; border-radius: 4px; padding: 2px 5px; }
+
+    .spec-card { background: white; }
+    .spec-body { padding: 18px 18px 20px; }
+    .spec-provider { font-family: Georgia, "Times New Roman", serif; font-size: 27px; line-height: 1; margin-bottom: 17px; }
+    .spec-provider .provider-slot { min-width: 0; border: 0; color: inherit; font-weight: 600; }
+    .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px 18px; }
+    .spec-item { padding-top: 10px; border-top: 1px solid #ece9df; }
+    .spec-item span { display: block; font-family: var(--mono); font-size: 8px; letter-spacing: .8px; text-transform: uppercase; color: #8f8678; margin-bottom: 5px; }
+    .spec-item strong { font-size: 11px; line-height: 1.5; font-weight: 550; }
+
+    .status-card { background: var(--purple-soft); border-color: #e7d6ff; }
+    .status-card .card-head { border-bottom-color: #eadcff; color: #5a2a91; }
+    .status-steps { padding: 7px 13px 13px; display: grid; gap: 7px; }
+    .status-step { display: flex; align-items: center; gap: 8px; font-size: 10px; color: #6d3e9f; }
+    .status-step .icon { width: 13px; height: 13px; }
+    .status-step.current .icon { animation: spin 1.4s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .access-card { background: #f7f7fa; }
+    .access-card .card-head { color: var(--ink); }
+    .access-content { padding: 15px; }
+    .access-link { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: white; border: 1px solid #dedde2; border-radius: 8px; padding: 10px 11px; font-family: var(--mono); font-size: 9px; }
+    .access-link span { color: var(--blue); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .access-meta { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip { font-family: var(--mono); font-size: 8px; border: 1px solid #dddbe2; background: white; padding: 4px 6px; border-radius: 4px; color: var(--muted); }
+
+    .result-card { background: var(--green-soft); border-color: #bce9ca; }
+    .result-card .card-head { border-bottom-color: #cbeed5; color: #17673a; }
+    .result-body { padding: 14px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 15px; }
+    .result-body strong { display: block; color: #17673a; font-size: 13px; }
+    .result-body p { margin-top: 3px; color: #52715d; font-size: 10px; line-height: 1.5; }
+    .result-badge { font-family: var(--mono); font-size: 8px; text-transform: uppercase; letter-spacing: .7px; padding: 5px 7px; border-radius: 5px; background: white; color: var(--green); border: 1px solid #bce9ca; }
+
+    .chat-composer { border-top: 1px solid #e6e4de; padding: 14px 16px; background: #fbfbfb; display: flex; gap: 9px; align-items: center; }
+    .chat-composer input { flex: 1; border: 1px solid #dddde2; border-radius: 9px; background: #f0f0f2; min-height: 40px; padding: 9px 12px; color: #777780; font-size: 11px; }
+    .chat-composer button { width: 38px; height: 38px; border: 0; border-radius: 8px; background: var(--blue); color: white; display: grid; place-items: center; }
+
+    .sandbox-section { padding: 18px 0 82px; }
+    .sandbox-card { background: var(--charcoal); color: var(--yellow); border-radius: 22px; padding: 54px 58px; display: grid; grid-template-columns: .88fr 1.12fr; gap: 74px; align-items: center; position: relative; overflow: hidden; }
+    .sandbox-card::after { content: "+"; position: absolute; left: 28%; bottom: -178px; font-family: Georgia, serif; font-size: 430px; color: #4d4f58; opacity: .32; pointer-events: none; }
+    .sandbox-kicker { font-family: var(--mono); font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase; opacity: .65; margin-bottom: 19px; }
+    .sandbox-title { font-size: clamp(38px, 4vw, 56px); line-height: 1.03; letter-spacing: -2.5px; font-weight: 520; }
+    .sandbox-title .serif { font-family: Georgia, serif; font-style: italic; font-weight: 400; }
+    .sandbox-copy { max-width: 360px; color: #d3d4dc; margin-top: 20px; font-size: 13px; line-height: 1.7; }
+    .sandbox-visual { position: relative; z-index: 2; background: var(--paper); color: var(--ink); border-radius: 13px; padding: 18px; box-shadow: 0 18px 45px rgba(10,10,13,.28); }
+    .sandbox-visual-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--line); font-size: 11px; font-weight: 650; }
+    .sandbox-path { padding: 18px 0; display: grid; grid-template-columns: 1fr 28px 1fr 28px 1fr; align-items: center; gap: 3px; }
+    .sandbox-node { text-align: center; }
+    .sandbox-node-icon { width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 9px; margin-inline: auto; display: grid; place-items: center; background: white; }
+    .sandbox-node-icon.andi { background: var(--blue); color: var(--yellow); border-color: var(--blue); }
+    .sandbox-node span { display: block; margin-top: 7px; font-size: 8px; color: var(--muted); }
+    .sandbox-arrow { color: var(--blue); justify-self: center; }
+    .sandbox-permissions { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+    .permission { display: flex; justify-content: space-between; align-items: center; padding: 10px 11px; font-size: 9px; }
+    .permission + .permission { border-top: 1px solid var(--line); }
+    .permission strong { font-weight: 600; color: var(--green); }
+
+    .team-section { padding: 0 0 82px; }
+    .team-head { text-align: center; max-width: 680px; margin: 0 auto 30px; }
+    .team-head h2 { font-size: clamp(36px, 4vw, 53px); line-height: 1.04; letter-spacing: -2.2px; font-weight: 520; }
+    .team-head h2 .serif { font-family: Georgia, serif; font-style: italic; color: var(--blue); font-weight: 400; }
+    .team-board { border: 1px solid var(--line); border-radius: 17px; background: white; padding: 32px; }
+    .team-flow { display: grid; grid-template-columns: 1fr 52px 1.25fr 52px 1fr; align-items: center; gap: 8px; }
+    .team-node { min-height: 150px; border: 1px solid #e1e0da; border-radius: 12px; padding: 18px; background: var(--paper); display: flex; flex-direction: column; justify-content: center; }
+    .team-node.center { background: var(--blue-soft); border-color: #d8ddff; }
+    .team-node .node-label { font-family: var(--mono); font-size: 8px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin-bottom: 10px; }
+    .team-node h3 { font-size: 20px; letter-spacing: -.6px; font-weight: 600; }
+    .team-node p { margin-top: 7px; color: var(--muted); font-size: 10px; line-height: 1.55; }
+    .team-node.center .agent-row { display: flex; gap: 9px; align-items: center; margin-bottom: 10px; }
+    .team-arrow { color: var(--blue); display: grid; place-items: center; }
+    .team-foundation { margin-top: 16px; padding: 15px 17px; border-radius: 10px; background: var(--charcoal); color: white; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .team-foundation strong { font-size: 11px; }
+    .team-chips { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+    .team-chips span { border: 1px solid #565861; border-radius: 4px; color: #d8d9df; font-size: 8px; padding: 4px 6px; }
+
+    .faq-section { border-top: 1px solid var(--line); padding: 72px 0 78px; }
+    .faq-grid { display: grid; grid-template-columns: .75fr 1.25fr; gap: 80px; }
+    .faq-intro h2 { font-size: 42px; line-height: 1.06; letter-spacing: -1.8px; font-weight: 520; }
+    .faq-intro .serif { font-family: Georgia, serif; font-style: italic; color: var(--blue); font-weight: 400; }
+    .faq-list details { border-bottom: 1px solid var(--line); }
+    .faq-list details:first-child { border-top: 1px solid var(--line); }
+    .faq-list summary { list-style: none; cursor: pointer; padding: 20px 0; display: flex; justify-content: space-between; gap: 20px; font-size: 13px; font-weight: 550; }
+    .faq-list summary::-webkit-details-marker { display: none; }
+    .faq-list summary::after { content: "+"; color: var(--blue); font-family: var(--mono); font-size: 19px; }
+    .faq-list details[open] summary::after { content: "-"; }
+    .faq-list p { padding: 0 28px 20px 0; color: var(--muted); font-size: 12px; line-height: 1.75; }
+
+    .closing { background: var(--blue); color: var(--yellow); padding: 58px 0; }
+    .closing-inner { display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+    .closing h2 { font-size: clamp(36px, 4vw, 55px); line-height: 1.03; letter-spacing: -2.2px; font-weight: 520; }
+    .closing .button { background: var(--yellow); color: var(--charcoal); }
+    .site-footer { background: var(--paper); padding: 26px 0; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 30px; color: var(--muted); font-size: 9px; }
+
+    /* v5: milestone-driven story rail + shorter visual states */
+    .story-rail { min-height: 600px; }
+    .story-card { padding-right: 18px; }
+    .story-card.dark { min-height: 500px; }
+    .story-kicker { margin-bottom: 16px; }
+    .story-title { max-width: 590px; }
+    .old-question { width: fit-content; max-width: 420px; margin-bottom: 24px; color: #777881; font-size: 18px; line-height: 1.25; letter-spacing: -.25px; text-decoration-line: line-through; text-decoration-thickness: 1.5px; text-decoration-color: currentColor; text-decoration-skip-ink: auto; }
+    .scope-visual { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; max-width: 390px; }
+    .scope-chip { border: 1px solid var(--line); border-radius: 999px; background: var(--paper); padding: 8px 11px; font-family: var(--mono); font-size: 9px; color: var(--muted); }
+    .scope-chip.provider-slot { color: var(--blue); border-color: #cbd4ff; background: var(--blue-soft); }
+    .sandbox-mini { display: grid; grid-template-columns: auto 22px auto; gap: 9px; align-items: center; width: fit-content; margin-top: 28px; padding: 12px 14px; border: 1px solid #55565f; border-radius: 10px; color: #ededf1; font-size: 11px; }
+    .sandbox-mini .icon { width: 16px; height: 16px; color: var(--yellow); }
+    .sandbox-mini .read-only-chip { grid-column: 3; width: fit-content; margin-top: -4px; border: 1px solid #666872; border-radius: 100px; padding: 3px 6px; color: var(--yellow); font-family: var(--mono); font-size: 7px; text-transform: uppercase; letter-spacing: .55px; }
+    .story-mini-copy { margin-top: 17px; color: #d7d7dd; font-size: 13px; }
+    .customer-quote-visual { margin-top: 28px; max-width: 430px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.58); }
+    .customer-quote-visual blockquote { margin: 0; font-size: 18px; line-height: 1.45; letter-spacing: -.35px; color: var(--ink); }
+    .customer-quote-visual .provider-slot { min-width: 0; border-bottom: 0; color: var(--blue); text-decoration: none; }
+    .customer-quote-slot { transition: opacity .15s ease, transform .15s ease; }
+    .customer-quote-slot.swapping { opacity: .16; transform: translateY(2px); }
+    .sandbox-pain { margin-top: 15px; color: #d7d7dd; font-size: 13px; }
+    .credential-share-card { --brand-accent: #111827; --brand-soft: #f4f4f5; margin-top: 10px; border-radius: 15px; background: #fff; color: var(--ink); padding: 19px; box-shadow: 0 16px 40px -28px #000; border-top: 3px solid var(--brand-accent); transition: border-color .2s ease; }
+    .credential-share-card[data-brand-theme="gold"] { --brand-accent: #b78b2e; --brand-soft: #fff8e5; }
+    .credential-share-card[data-brand-theme="mint"] { --brand-accent: #14735f; --brand-soft: #edf9f5; }
+    .credential-share-card[data-brand-theme="rose"] { --brand-accent: #a84b63; --brand-soft: #fff1f4; }
+    .credential-share-card[data-brand-theme="slate"] { --brand-accent: #293241; --brand-soft: #f0f3f7; }
+    .credential-brand-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+    .customer-brand { display: inline-flex; align-items: center; gap: 7px; min-width: 0; }
+    .customer-brand-mark { width: 24px; height: 24px; border-radius: 7px; display: grid; place-items: center; background: var(--brand-accent); color: white; font-family: var(--mono); font-size: 9px; font-weight: 800; box-shadow: 0 0 0 4px var(--brand-soft); }
+    .customer-brand-name { font-size: 10px; font-weight: 750; letter-spacing: -.1px; }
+    .customer-brand-context { font-family: var(--mono); font-size: 7px; text-transform: uppercase; letter-spacing: .8px; color: #9a9da5; }
+    .credential-share-label { display: flex; align-items: center; gap: 7px; color: #727681; font-size: 10px; font-weight: 650; }
+    .credential-share-label .icon { width: 13px; height: 13px; color: var(--charcoal); }
+    .credential-share-card h3 { margin: 14px 0 0; font-size: 19px; line-height: 1.2; letter-spacing: -.55px; }
+    .credential-share-card h3 .provider-slot { color: inherit; border: 0; text-decoration: none; }
+    .credential-notice { margin-top: 15px; border: 1px solid #a9edbe; border-radius: 10px; background: #eefbf2; color: #166838; padding: 11px 12px; font-size: 10px; line-height: 1.45; }
+    .share-secure-button { margin-top: 13px; border-radius: 8px; background: var(--brand-accent); color: #fff; padding: 11px 12px; text-align: center; font-size: 11px; font-weight: 700; transition: background .2s ease; }
+    .credential-foot { margin-top: 11px; text-align: center; color: #9ca3af; font-size: 8px; line-height: 1.45; }
+    .secure-link { color: var(--blue-dark); text-decoration: underline; text-underline-offset: 3px; font-weight: 650; }
+    .unlock-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-top: 30px; max-width: 470px; }
+    .unlock-grid span { display: flex; align-items: center; gap: 10px; min-height: 43px; border: 1px solid rgba(231,201,111,.45); border-radius: 999px; background: #292a30; padding: 10px 14px; font-family: var(--mono); font-size: 9px; font-weight: 650; letter-spacing: .15px; color: #fff3bd; }
+    .unlock-grid span::before { content: ''; width: 6px; height: 6px; flex: 0 0 auto; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px rgba(231,201,111,.11); }
+    .chat-body { padding-top: 24px; }
+    .phase-anchor { display: block; height: 1px; width: 100%; }
+    .milestone-card { margin-top: 18px; }
+    .compact-status { margin-top: 18px; }
+    .phase-work { display: grid; gap: 10px; margin: 16px 0 4px 34px; max-width: 78%; }
+    .phase-work .thinking { margin: 0; }
+    .andi-activity { margin: 16px 0 4px 34px; color: #8b4dff; font-size: 11px; font-weight: 650; line-height: 1.4; display: inline-flex; align-items: center; gap: 7px; }
+    .customer-sees-label { margin-top: 26px; font-family: var(--mono); font-size: 9px; font-weight: 650; letter-spacing: 1px; text-transform: uppercase; color: #c7c4ba; }
+    .sandbox-checks { margin: 18px 0 0 34px; }
+    .tool-call { display: flex; align-items: center; gap: 9px; width: fit-content; max-width: 100%; border: 1px solid #e1d9ee; border-radius: 9px; background: #fbf8ff; padding: 9px 11px; color: #57338b; font-family: var(--mono); font-size: 9px; line-height: 1.4; }
+    .tool-call .icon { width: 13px; height: 13px; flex: 0 0 auto; }
+    .tool-call .tool-state { margin-left: auto; color: var(--muted); font-size: 8px; text-transform: uppercase; letter-spacing: .55px; }
+    .tool-call.working .tool-state { color: var(--blue); }
+    .phase-note { margin: 2px 0 0 34px; max-width: 74%; color: var(--muted); font-size: 10px; line-height: 1.5; }
+    .build-only-card .card-head { border-bottom: 0; }
+    .verify-copy { padding: 13px 14px 4px; color: var(--ink); font-size: 11px; line-height: 1.55; }
+    .sandbox-verify-card .card-state { color: var(--blue); }
+    .status-one { display: flex; justify-content: space-between; gap: 14px; padding: 10px 14px 13px; font-size: 10px; color: #6d3e9f; }
+    .status-one span:last-child { color: var(--muted); text-align: right; }
+    .dark-mobile-story { background: var(--charcoal) !important; color: var(--yellow) !important; }
+    .experience { padding-bottom: 58px; }
+    .chat-composer input { font-size: 10px; }
+    @media (max-width: 1080px) {
+      .wrap { width: calc(100% - 56px); }
+      .experience-grid { grid-template-columns: minmax(0,.78fr) minmax(510px,1.22fr); gap: 35px; }
+      .story-title { font-size: 52px; letter-spacing: -2.8px; }
+      .story-card.dark { padding: 34px; }
+      .chat-body { padding-inline: 19px; }
+      .sandbox-card { gap: 40px; padding: 43px; }
+    }
+    @media (max-width: 370px) {
+      .yaml-body pre { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; overflow-x: hidden; }
+      .yaml-body code { display: block; max-width: 100%; white-space: inherit; overflow-wrap: anywhere; word-break: break-word; }
+    }
+    @media (max-width: 860px) {
+      .chat-stage { min-height: auto; }
+      .chat-window { position: relative; top: auto; height: auto; display: block; }
+      .chat-body { overflow: visible; }
+      .scroll-track { display: none; }
+      .chat-phase { display: block !important; animation: none !important; transition: none !important; opacity: 1 !important; filter: none !important; }
+      .phase-work { margin-left: 0; max-width: 100%; }
+      .phase-note { margin-left: 0; max-width: 100%; }
+      .desktop-nav { display: none; }
+      .header-cta { margin-left: auto; }
+      .menu-button { display: grid; place-items: center; }
+      .experience { padding-top: 40px; }
+      .experience-grid { grid-template-columns: 1fr; gap: 28px; max-width: 690px; margin-inline: auto; }
+      .story-rail { position: relative; top: auto; min-height: 450px; }
+      .story-card { position: absolute; }
+      .story-card:not(:first-child) { display: none; }
+      .story-card:first-child { opacity: 1; transform: none; position: relative; }
+      .story-progress { display: none; }
+      .mobile-story { display: block; margin-bottom: 22px; padding: 15px 16px; border-radius: 10px; background: var(--blue-soft); color: var(--blue-dark); font-size: 17px; font-weight: 650; letter-spacing: -.35px; }
+      .faq-grid { grid-template-columns: 1fr; gap: 30px; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: calc(100% - 34px); }
+      .header-inner { min-height: 66px; }
+      .page-label { font-size: 14px; letter-spacing: -.25px; }
+      .header-cta { display: none; }
+      .story-rail { min-height: 390px; }
+      .crossout { font-size: 17px; }
+      .story-title { font-size: 46px; letter-spacing: -2.4px; }
+      .customer-quote-visual { padding: 15px 16px; }
+      .customer-quote-visual blockquote { font-size: 16px; }
+      .credential-share-card { padding: 16px; }
+      .credential-share-card h3 { font-size: 17px; }
+      .story-actions { margin-top: 23px; }
+      .chat-window { border-radius: 13px; }
+      .chat-head { padding: 12px 14px; }
+      .chat-body { padding: 17px 14px 22px; }
+      .message-row.user .bubble, .message-row.andi .bubble { max-width: 91%; }
+      .user-stack { max-width: 91%; }
+      .bubble { font-size: 11px; padding: 10px 11px; }
+      .tool-card, .spec-card, .status-card, .access-card, .result-card { margin-left: 0; }
+      .thinking { margin-left: 0; }
+      .spec-grid { grid-template-columns: 1fr; gap: 10px; }
+      .chat-composer { padding: 11px; }
+      .sandbox-section { padding-bottom: 55px; }
+      .sandbox-card { padding: 31px 22px; border-radius: 14px; }
+      .sandbox-card::after { display: none; }
+      .sandbox-title { font-size: 41px; }
+      .sandbox-path { grid-template-columns: 1fr; gap: 8px; }
+      .sandbox-arrow { transform: rotate(90deg); }
+      .team-section { padding-bottom: 55px; }
+      .team-board { padding: 18px; }
+      .team-head h2 { font-size: 38px; }
+      .faq-section { padding-block: 52px; }
+      .faq-intro h2 { font-size: 35px; }
+      .closing-inner { align-items: flex-start; flex-direction: column; }
+      .closing h2 { font-size: 40px; }
+      .footer-inner { flex-direction: column; gap: 6px; }
+    }
+
+    /* v6 refinement: simpler chrome, labeled user messages, full-width FAQ, YAML-ready state */
+    .message-row.user { align-items: flex-end; }
+    .user-stack { max-width: 78%; display: flex; flex-direction: column; align-items: flex-end; }
+    .message-row.user .user-stack .bubble { max-width: 100%; }
+    .message-author { margin: 0 6px 5px 0; font-family: var(--mono); font-size: 8px; letter-spacing: .55px; color: var(--muted); }
+    .delivery-slot { transition: opacity .15s ease, transform .15s ease; }
+    .delivery-slot.swapping { opacity: .15; transform: translateY(2px); }
+    .yaml-body { padding: 13px; background: #f9fbf9; }
+    .yaml-file-label { margin-bottom: 8px; font-family: var(--mono); font-size: 8px; color: #52715d; }
+    .yaml-body pre { margin: 0; padding: 13px 14px; overflow-x: auto; border: 1px solid #cbeed5; border-radius: 8px; background: white; color: #244733; font-family: var(--mono); font-size: 9px; line-height: 1.65; white-space: pre; }
+    .yaml-body code span { color: var(--blue); }
+    .deploy-button { min-height: 32px; padding: 7px 11px; border: 1px solid #d4b95e; border-radius: 7px; background: #202126; color: #fff0ae; display: inline-flex; align-items: center; gap: 7px; font-size: 9px; font-weight: 750; cursor: pointer; }
+    .result-card .card-head .deploy-button { margin-left: auto; }
+    .deploy-button .icon { width: 13px; height: 13px; }
+    .deploy-button.deployed { background: #17673a; }
+    .faq-grid { display: block; }
+    .faq-list { width: 100%; }
+    .faq-section { border-top: 0; padding: 8px 0 72px; }
+    .faq-list details:first-child { border-top: 0; }
+    .footer-inner { justify-content: flex-start; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+    <defs>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16M14 6l6 6-6 6"/></symbol>
+      <symbol id="i-up-right" viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5" stroke-width="2.4"/><circle cx="12" cy="12" r="3.5" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+      <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 7 3-3a5 5 0 0 1 7 7l-3 3M14 17l-3 3a5 5 0 0 1-7-7l3-3M8 16l8-8"/></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6Z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6M18 13a5 5 0 0 1 3 5v3"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 10 5-10 5L2 8l10-5ZM2 12l10 5 10-5M2 16l10 5 10-5"/></symbol>
+      <symbol id="i-data" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7L20 14M20 19v-5h-5"/></symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="page-label" href="#main">Introducing Andi By Ampersand</a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#experience">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://docs.withampersand.com/overview" target="_blank" rel="noopener noreferrer">Docs</a>
+      </nav>
+      <button class="menu-button" id="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation"><svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+    <nav class="wrap mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="#experience">How it works</a><a href="#faq">FAQ</a><a href="https://docs.withampersand.com/overview" target="_blank" rel="noopener noreferrer">Docs</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="experience" id="experience" data-story-state="0" aria-label="See Andi work">
+      <div class="wrap experience-grid">
+        <aside class="story-rail" aria-live="polite">
+          <article class="story-card active" data-story-panel="0">
+            <div class="old-question" aria-label="Stop asking: Is this integration supported?"><span>Is this integration supported?</span></div>
+            <h1 class="story-title">Which integration do we need to <span class="serif">build next?</span></h1>
+            <div class="story-actions"><a class="button button-primary" data-contact href="https://calendly.com/joel-withampersand/new-meeting-1" target="_blank" rel="noopener noreferrer">Talk to us about Andi <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+            <div class="story-progress" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span></div>
+          </article>
+
+          <article class="story-card" data-story-panel="1">
+            <h2 class="story-title">Tell Andi what your <span class="serif">customer needs.</span></h2>
+            <div class="customer-quote-visual" aria-hidden="true">
+              <blockquote>&ldquo;My customer wants an integration with <span class="provider-slot">ServiceTitan</span> because they said they want <span class="customer-quote-slot">our app to react to all their jobs data changes</span>.&rdquo;</blockquote>
+            </div>
+            <div class="story-progress" aria-hidden="true"><span></span><span class="active"></span><span></span><span></span></div>
+          </article>
+
+          <article class="story-card dark" data-story-panel="2">
+            <h2 class="story-title sandbox-story-title"><span class="serif">Skip partnership pain.</span></h2>
+            <p class="sandbox-story-copy">Securely share your customer's sandbox credentials with Andi to build an API-proven connector.</p>
+            <div class="customer-sees-label">What your customer sees</div>
+            <div class="credential-share-card" id="share-card" data-brand-theme="gold">
+              <div class="credential-brand-bar">
+                <div class="customer-brand"><span class="customer-brand-mark">Y</span><span class="customer-brand-name">Your brand</span></div>
+                <span class="customer-brand-context">Customer integrations</span>
+              </div>
+              <div class="credential-share-label"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg>Secure credential sharing</div>
+              <h3>Share your <span class="provider-slot">ServiceTitan</span> sandbox</h3>
+              <div class="credential-notice">Credentials are encrypted, used only for read-only testing, and wiped when testing is complete.</div>
+              <div class="share-secure-button">Share securely</div>
+              <div class="credential-foot">Rotate or revoke access any time.</div>
+            </div>
+            <div class="story-progress" aria-hidden="true"><span></span><span></span><span class="active"></span><span></span></div>
+          </article>
+
+          <article class="story-card dark" data-story-panel="3">
+            <h2 class="story-title">Andi builds it.<br><span class="serif">Ampersand runs it.</span></h2>
+            <div class="unlock-grid" aria-label="Ampersand capabilities unlocked">
+              <span>Managed auth</span><span>Field mappings</span><span>Read</span><span>Write</span><span>Scheduled reads</span><span>Backfills</span><span>Proxy</span><span>Retries</span><span>Logs</span><span>Alerting</span>
+            </div>
+            <div class="story-progress" aria-hidden="true"><span></span><span></span><span></span><span class="active"></span></div>
+          </article>
+        </aside>
+
+        <div class="chat-stage">
+        <div class="chat-window" aria-label="Illustrative Andi connector request">
+          <div class="chat-head">
+            <div class="andi-mark" aria-hidden="true"><svg class="icon"><use href="#i-spark"/></svg></div>
+            <div><strong>Andi</strong></div>
+          </div>
+
+          <div class="chat-body" id="andi-chat-body">
+            <div class="chat-phase revealed" data-chat-phase="0">
+              <div class="mobile-story">Which integration do we need to build next?</div>
+              <div class="message-row user"><div class="user-stack"><span class="message-author">Me</span><div class="bubble">We need to build an integration with <span class="provider-slot">ServiceTitan</span> for an incoming customer.</div></div></div>
+              <div class="message-row andi"><div class="mini-andi" aria-hidden="true"><svg class="icon"><use href="#i-spark"/></svg></div><div class="bubble">Got it. Do you need to read, write, or both? Which objects does the product need?</div></div>
+              <div class="message-row user"><div class="user-stack"><span class="message-author">Me</span><div class="bubble">Read only. We&rsquo;ll need <span class="objects-slot">jobs, technicians, and customers</span>.</div></div></div>
+            </div>
+
+            <div class="chat-phase" data-chat-phase="1">
+              <div class="mobile-story">Tell Andi what your customer needs.</div>
+              <div class="andi-activity"><span>Andi is generating a spec</span><span class="thinking-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+              <div class="spec-card milestone-card">
+                <div class="card-head">Connector specification</div>
+                <div class="spec-body">
+                  <div class="spec-provider"><span class="provider-slot">ServiceTitan</span></div>
+                  <div class="spec-grid">
+                    <div class="spec-item"><span>Use case</span><strong class="feature-slot">Dispatch flow</strong></div>
+                    <div class="spec-item"><span>Action</span><strong>Read</strong></div>
+                    <div class="spec-item"><span>Objects</span><strong class="objects-slot">Jobs, technicians, customers</strong></div>
+                    <div class="spec-item"><span>Delivery</span><strong class="delivery-slot">Webhook</strong></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chat-phase" data-chat-phase="2">
+              <div class="mobile-story dark-mobile-story">Skip partnership pain. Securely share your customer's sandbox credentials with Andi.</div>
+              <div class="andi-activity"><span>Andi is generating a secure credential link for your customer</span><span class="thinking-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+              <div class="message-row andi"><div class="mini-andi" aria-hidden="true"><svg class="icon"><use href="#i-spark"/></svg></div><div class="bubble">To verify real API behavior, enter sandbox credentials or share <a class="secure-link" href="#share-card">this secure link</a> with your customer.</div></div>
+            </div>
+
+            <div class="chat-phase" data-chat-phase="3">
+              <div class="mobile-story">Andi builds it. Ampersand runs it.</div>
+              <div class="tool-call sandbox-checks"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Running read-only sandbox checks</span><span class="tool-state">12 / 12</span></div>
+              <div class="result-card milestone-card">
+                <div class="card-head"><svg class="icon" aria-hidden="true"><use href="#i-check-circle"/></svg>Connector ready <button class="deploy-button" type="button" aria-pressed="false"><span>Deploy</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+                <div class="yaml-body">
+                  <div class="yaml-file-label">amp.yaml</div>
+                  <pre><code>specVersion: 1.0.0
+integrations:
+  - name: <span class="yaml-name-slot">servicetitan-customer</span>
+    provider: <span class="yaml-provider-slot">serviceTitan</span>
+    read:
+      objects:
+        - objectName: <span class="yaml-object-slot">jobs</span>
+          destination: <span class="yaml-destination-slot">customerWebhook</span>
+          schedule: &quot;*/30 * * * *&quot;
+          backfill:
+            defaultPeriod:
+              fullHistory: true
+          requiredFields:
+            - fieldName: id
+            - mapToName: customer_status
+              mapToDisplayName: Customer status
+        - objectName: <span class="yaml-object-2-slot">technicians</span>
+          destination: <span class="yaml-destination-slot">customerWebhook</span>
+        - objectName: <span class="yaml-object-3-slot">customers</span>
+          destination: <span class="yaml-destination-slot">customerWebhook</span></code></pre>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-track" aria-hidden="true">
+          <div class="scroll-phase"><span data-story-trigger="0"></span></div>
+          <div class="scroll-phase"><span data-story-trigger="1"></span></div>
+          <div class="scroll-phase"><span data-story-trigger="2"></span></div>
+          <div class="scroll-phase"><span data-story-trigger="3"></span></div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="faq-section" id="faq" aria-label="Frequently asked questions">
+      <div class="wrap faq-grid">
+        <div class="faq-list">
+          <details><summary>Does Andi replace Ampersand?</summary><p>No. Andi extends Ampersand by building connectors for the platform. Ampersand remains the infrastructure you use to configure, operate, and monitor your integrations.</p></details>
+          <details><summary>Can Andi build a connector for any system?</summary><p>Bring the request. Andi scopes what is feasible with you. Provider APIs, permissions, available access, and the operations your product needs determine what can be built. The catalog is a starting point, not a promise of universal API coverage.</p></details>
+          <details><summary>What if we don&rsquo;t have our own sandbox?</summary><p>Share a secure link with your customer so they can provide sandbox credentials directly. Andi uses that access for read-only validation, so you can avoid waiting through a separate vendor sandbox process.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" aria-labelledby="closing-title">
+      <div class="wrap closing-inner"><h2 id="closing-title">What integration do you<br>need to build next?</h2><a class="button" data-contact href="https://calendly.com/joel-withampersand/new-meeting-1" target="_blank" rel="noopener noreferrer">Talk to us about Andi <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap footer-inner"><span>Andi by Ampersand</span></div></footer>
+
+  <script>
+    'use strict';
+    const PAGE_CONFIG = Object.freeze({ contactUrl: 'https://calendly.com/joel-withampersand/new-meeting-1' });
+    document.querySelectorAll('[data-contact]').forEach(link => { link.href = PAGE_CONFIG.contactUrl; });
+
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    function setMenu(open) {
+      menuToggle.setAttribute('aria-expanded', String(open));
+      menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+      mobileNav.hidden = !open;
+    }
+    menuToggle.addEventListener('click', () => setMenu(mobileNav.hidden));
+    mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !mobileNav.hidden) { setMenu(false); menuToggle.focus(); }
+    });
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const experience = document.querySelector('.experience');
+    const storyPanels = Array.from(document.querySelectorAll('[data-story-panel]'));
+    const storyTriggers = Array.from(document.querySelectorAll('[data-story-trigger]'));
+    const chatPhases = Array.from(document.querySelectorAll('[data-chat-phase]'));
+    const chatBody = document.getElementById('andi-chat-body');
+    let activeStory = 0;
+    function revealChatThrough(index, animate = true) {
+      chatPhases.forEach((phase, i) => {
+        const revealed = i <= index;
+        phase.classList.toggle('revealed', revealed);
+        phase.classList.toggle('is-past', revealed && i < index);
+        phase.classList.toggle('is-current', i === index);
+      });
+      if (chatBody && window.innerWidth > 860) {
+        window.requestAnimationFrame(() => {
+          chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: animate && !reduceMotion ? 'smooth' : 'auto' });
+        });
+      }
+    }
+    function activateStory(index) {
+      index = Math.max(0, Math.min(storyPanels.length - 1, index));
+      const changed = index !== activeStory || !storyPanels[index].classList.contains('active');
+      activeStory = index;
+      if (experience) experience.dataset.storyState = String(index);
+      storyPanels.forEach((panel, i) => panel.classList.toggle('active', i === index));
+      revealChatThrough(index, changed);
+    }
+    let storyTicking = false;
+    function syncStoryToMilestones() {
+      if (window.innerWidth <= 860) {
+        activateStory(0);
+        storyTicking = false;
+        return;
+      }
+      const activationLine = Math.min(window.innerHeight * 0.38, 380);
+      let next = 0;
+      storyTriggers.forEach(trigger => {
+        if (trigger.getBoundingClientRect().top <= activationLine) next = Number(trigger.dataset.storyTrigger || 0);
+      });
+      activateStory(next);
+      storyTicking = false;
+    }
+    function requestStorySync() {
+      if (storyTicking) return;
+      storyTicking = true;
+      window.requestAnimationFrame(syncStoryToMilestones);
+    }
+    window.addEventListener('scroll', requestStorySync, { passive: true });
+    window.addEventListener('resize', requestStorySync);
+    syncStoryToMilestones();
+
+    const scenarios = [
+      { provider: 'ServiceTitan', providerKey: 'serviceTitan', slug: 'servicetitan', feature: 'dispatch flow', featureTitle: 'Dispatch flow', customerQuote: 'our app to react to all their jobs data changes', customerQuoteDisplay: 'our app to react to all their jobs data changes', objects: 'jobs, technicians, and customers', objectsTitle: 'Jobs, technicians, customers', shortObjects: 'Jobs + 2', objectKey: 'jobs', objectKey2: 'technicians', objectKey3: 'customers', delivery: 'Webhook', destination: 'customerWebhook', brandTheme: 'gold' },
+      { provider: 'Jobber', providerKey: 'jobber', slug: 'jobber', feature: 'scheduling flow', featureTitle: 'Scheduling flow', customerQuote: 'our scheduling experience to react to every job update', customerQuoteDisplay: 'our scheduling experience to react to every job update', objects: 'jobs, team members, and clients', objectsTitle: 'Jobs, team members, clients', shortObjects: 'Jobs + 2', objectKey: 'jobs', objectKey2: 'teamMembers', objectKey3: 'clients', delivery: 'S3', destination: 'customerS3', brandTheme: 'mint' },
+      { provider: 'Housecall Pro', providerKey: 'housecallPro', slug: 'housecall-pro', feature: 'booking flow', featureTitle: 'Booking flow', customerQuote: 'bookings to react whenever a job changes', customerQuoteDisplay: 'bookings to react whenever a job changes', objects: 'jobs, employees, and customers', objectsTitle: 'Jobs, employees, customers', shortObjects: 'Jobs + 2', objectKey: 'jobs', objectKey2: 'employees', objectKey3: 'customers', delivery: 'ClickHouse', destination: 'customerClickHouse', brandTheme: 'rose' },
+      { provider: 'BuildOps', providerKey: 'buildOps', slug: 'buildops', feature: 'service-ops flow', featureTitle: 'Service-ops flow', customerQuote: 'our service workflow to react to every work-order change', customerQuoteDisplay: 'our service workflow to react to every work-order change', objects: 'work orders, technicians, and accounts', objectsTitle: 'Work orders, technicians, accounts', shortObjects: 'Work orders + 2', objectKey: 'workOrder', objectKey2: 'technicians', objectKey3: 'accounts', delivery: 'Webhook', destination: 'customerWebhook', brandTheme: 'slate' }
+    ];
+    const providerSlots = Array.from(document.querySelectorAll('.provider-slot'));
+    const featureSlots = Array.from(document.querySelectorAll('.feature-slot'));
+    const objectsSlots = Array.from(document.querySelectorAll('.objects-slot'));
+    const objectsShortSlots = Array.from(document.querySelectorAll('.objects-short-slot'));
+    const deliverySlots = Array.from(document.querySelectorAll('.delivery-slot'));
+    const customerQuoteSlots = Array.from(document.querySelectorAll('.customer-quote-slot'));
+    const yamlNameSlots = Array.from(document.querySelectorAll('.yaml-name-slot'));
+    const yamlProviderSlots = Array.from(document.querySelectorAll('.yaml-provider-slot'));
+    const yamlObjectSlots = Array.from(document.querySelectorAll('.yaml-object-slot'));
+    const yamlObject2Slots = Array.from(document.querySelectorAll('.yaml-object-2-slot'));
+    const yamlObject3Slots = Array.from(document.querySelectorAll('.yaml-object-3-slot'));
+    const yamlDestinationSlots = Array.from(document.querySelectorAll('.yaml-destination-slot'));
+    const credentialShareCard = document.querySelector('.credential-share-card');
+    let scenarioIndex = 0;
+    function paintScenario(scenario) {
+      providerSlots.forEach(slot => slot.textContent = scenario.provider);
+      featureSlots.forEach(slot => slot.textContent = slot.closest('.spec-item') ? scenario.featureTitle : scenario.feature);
+      objectsSlots.forEach(slot => slot.textContent = slot.closest('.spec-item') ? scenario.objectsTitle : scenario.objects);
+      objectsShortSlots.forEach(slot => slot.textContent = scenario.shortObjects);
+      deliverySlots.forEach(slot => slot.textContent = scenario.delivery);
+      customerQuoteSlots.forEach(slot => slot.textContent = scenario.customerQuote);
+      yamlNameSlots.forEach(slot => slot.textContent = `${scenario.slug}-customer`);
+      yamlProviderSlots.forEach(slot => slot.textContent = scenario.providerKey);
+      yamlObjectSlots.forEach(slot => slot.textContent = scenario.objectKey);
+      yamlObject2Slots.forEach(slot => slot.textContent = scenario.objectKey2);
+      yamlObject3Slots.forEach(slot => slot.textContent = scenario.objectKey3);
+      yamlDestinationSlots.forEach(slot => slot.textContent = scenario.destination);
+      if (credentialShareCard) credentialShareCard.dataset.brandTheme = scenario.brandTheme || 'gold';
+    }
+    function updateScenario() {
+      [...providerSlots, ...featureSlots, ...objectsSlots, ...deliverySlots, ...customerQuoteSlots].forEach(slot => slot.classList.add('swapping'));
+      window.setTimeout(() => {
+        scenarioIndex = (scenarioIndex + 1) % scenarios.length;
+        paintScenario(scenarios[scenarioIndex]);
+        [...providerSlots, ...featureSlots, ...objectsSlots, ...deliverySlots, ...customerQuoteSlots].forEach(slot => slot.classList.remove('swapping'));
+      }, reduceMotion ? 0 : 150);
+    }
+    paintScenario(scenarios[0]);
+    if (!reduceMotion) window.setInterval(updateScenario, 3200);
+
+    const deployButton = document.querySelector('.deploy-button');
+    if (deployButton) {
+      deployButton.addEventListener('click', () => {
+        deployButton.classList.add('deployed');
+        deployButton.setAttribute('aria-pressed', 'true');
+        deployButton.querySelector('span').textContent = 'Deployed';
+      });
+    }
+  </script>
+</body>
+</html>
